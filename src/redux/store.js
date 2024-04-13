@@ -1,6 +1,7 @@
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import {thunk}  from 'redux-thunk';
 import { userReducer } from '../reducers/userReducer';
+import { addUserReducer } from '../reducers/addUserReducer';
 // import { addUserReducer } from './reducers/addUserReducer';
 // import { allUsersReducer } from './reducers/allUserReducer';
 // import { deleteReducer } from './reducers/deleteUser';
@@ -24,7 +25,7 @@ const rootReducer = combineReducers({
     user: userReducer,
     // adminUsers: allAdminUsersReducer,
     // deleteUser: deleteUserReducer,
-    // newUser: addUserReducer,
+    newUser: addUserReducer,
     // allUser: allUsersReducer,
     // delUser: deleteReducer,
     // getUser: getUserReducer,
