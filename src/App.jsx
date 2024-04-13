@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import AddEmployee from './components/EmployeeForm/AddEmployee';
 import AllEmployees from './components/EmployeesTable/AllEmployees';
 import UpdateEmployee from './components/EmployeeForm/UpdateEmployee';
+import EmployeeAttendanceTable from './components/EmployeesTable/EmployeeAttendanceTable';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.user)
@@ -21,6 +22,7 @@ function App() {
           <Route path='/addemployee' element={<AddEmployee />} />
           <Route path='/allemployees' element={<AllEmployees />} />
           <Route path='/update-employee/:id' element={<UpdateEmployee />} />
+          <Route path='/employee-attendance' element={<EmployeeAttendanceTable />} />
         </Route>
         <Route element={<Signin />} path="/sign-in" />
       </Routes>
