@@ -9,7 +9,7 @@ const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user } = useSelector((state) => state.user)
 
-  console.log("this is user", user);
+  // console.log("this is user", user);
 
   // const role = user.role
   const { enqueueSnackbar } = useSnackbar();

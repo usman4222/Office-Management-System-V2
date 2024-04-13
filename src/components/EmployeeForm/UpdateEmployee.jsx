@@ -1,26 +1,29 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import DefaultLayout from '../../layout/DefaultLayout';
 import Breadcrumb from '../Breadcrumbs/Breadcrumb';
 import { useEffect, useState } from 'react';
-import { addNewUser, clearErrors } from '../../actions/addUserAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_USER_RESET } from '../../constants/addUserContant';
 import { useSnackbar } from 'notistack';
+import { clearErrors } from '../../actions/userAction';
+import { getUserDetails, updateUserDetails } from '../../actions/updateUser';
+import { UPDATE_USER_RESET } from '../../constants/updateUser';
 
-const AddEmployee = () => {
+const UpdateEmployee = () => {
 
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const { id } = useParams()
+    const { error: updateError, isUpdated } = useSelector((state) => state.updateUser)
+    const { user, loading } = useSelector((state) => state.getUser)
     const [selectedOption, setSelectedOption] = useState('');
     const [isOptionSelected, setIsOptionSelected] = useState(false);
     const [name, setName] = useState("")
     const [fatherName, setFatherName] = useState("")
     const [address, setAddress] = useState("")
     const [phone, setPhone] = useState("")
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar();
     const [role, setRole] = useState("");
     const [designation, setDesignation] = useState("");
-    const { loading, error, success } = useSelector((state) => state.newUser)
 
     const roleCategories = [
         "Employee",
@@ -39,38 +42,51 @@ const AddEmployee = () => {
         "Digital Marketer"
     ]
 
-    const addUserHandler = (e) => {
-        e.preventDefault();
-
-        const myForm = new FormData();
-
-        myForm.set("name", name);
-        myForm.set("fatherName", fatherName);
-        myForm.set("address", address);
-        myForm.set("phone", phone);
-        myForm.set("role", role);
-        myForm.set("designation", designation);
-        dispatch(addNewUser(myForm));
-    };
+    const userId = id;
 
     useEffect(() => {
-        if (error) {
-            alert.error(error)
-            enqueueSnackbar(error, { variant: 'success' });
-            dispatch(clearErrors())
+        if (user && user._id === userId) {
+            setName(user.name);
+            setFatherName(user.fatherName);
+            setPhone(user.phone);
+            setAddress(user.address);
+            setRole(user.role);
+            setDesignation(user.designation);
+        } else {
+            dispatch(getUserDetails(userId));
         }
-        if (success) {
-            enqueueSnackbar('User created Successfully', { variant: 'success' });
-            dispatch({ type: ADD_USER_RESET })
+
+        if (updateError) {
+            enqueueSnackbar(updateError, { variant: 'success' });
+            dispatch(clearErrors());
         }
-    }, [dispatch, error, success])
+        if (isUpdated) {
+            enqueueSnackbar("Employee Updated Successfully", { variant: 'success' });
+            dispatch({ type: UPDATE_USER_RESET });
+        }
+    }, [dispatch, enqueueSnackbar, updateError, isUpdated, userId, user]);
+
+
+
+
+    const updateUserHandler = (e) => {
+        e.preventDefault()
+
+        const myForm = new FormData()
+
+        myForm.set("name", name)
+        myForm.set("fatherName", fatherName)
+        myForm.set("address", address)
+        myForm.set("phone", phone)
+        myForm.set("role", role)
+        myForm.set("designation", designation)
+        dispatch(updateUserDetails(userId, myForm))
+
+    }
 
     const changeTextColor = () => {
         setIsOptionSelected(true);
     };
-
-
-
 
     return (
         <DefaultLayout>
@@ -87,7 +103,7 @@ const AddEmployee = () => {
                         </div>
                         <form
                             encType='multipart/form-data'
-                            onSubmit={addUserHandler}
+                            onSubmit={updateUserHandler}
                         >
                             <div className="p-6.5">
                                 <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
@@ -100,7 +116,6 @@ const AddEmployee = () => {
                                             required
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
-                                            placeholder="Enter your Name"
                                             className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                         />
                                     </div>
@@ -114,7 +129,6 @@ const AddEmployee = () => {
                                             required
                                             value={fatherName}
                                             onChange={(e) => setFatherName(e.target.value)}
-                                            placeholder="Enter your Father Name"
                                             className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                         />
                                     </div>
@@ -129,7 +143,6 @@ const AddEmployee = () => {
                                         required
                                         value={address}
                                         onChange={(e) => setAddress(e.target.value)}
-                                        placeholder="Enter your Address"
                                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                     />
                                 </div>
@@ -143,7 +156,6 @@ const AddEmployee = () => {
                                         required
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
-                                        placeholder="Enter your Phone No."
                                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                     />
                                 </div>
@@ -151,22 +163,20 @@ const AddEmployee = () => {
                                     <label className="mb-2.5 block text-black dark:text-white">Role</label>
                                     <div className="relative z-20 bg-transparent dark:bg-form-input">
                                         <select
+                                            value={role}
                                             onChange={(e) => {
                                                 setSelectedOption(e.target.value);
                                                 changeTextColor();
-                                                setRole(e.target.value)
+                                                setRole(e.target.value);
                                             }}
-                                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${isOptionSelected ? 'text-black dark:text-white' : ''
-                                                }`}
+                                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${isOptionSelected ? 'text-black dark:text-white' : ''}`}
                                         >
-                                            <option value="">Choose Role</option>
                                             {roleCategories.map((cate) => (
                                                 <option key={cate} value={cate}>
                                                     {cate}
                                                 </option>
                                             ))}
                                         </select>
-
                                         <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                                             <svg
                                                 className="fill-current"
@@ -192,15 +202,15 @@ const AddEmployee = () => {
                                     <label className="mb-2.5 block text-black dark:text-white">Desigination</label>
                                     <div className="relative z-20 bg-transparent dark:bg-form-input">
                                         <select
+                                            value={designation}
                                             onChange={(e) => {
+                                                console.log("Selected Designation:", e.target.value);
                                                 setSelectedOption(e.target.value);
                                                 changeTextColor();
-                                                setDesignation(e.target.value)
+                                                setDesignation(e.target.value);
                                             }}
-                                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${isOptionSelected ? 'text-black dark:text-white' : ''
-                                                }`}
+                                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${isOptionSelected ? 'text-black dark:text-white' : ''}`}
                                         >
-                                            <option value="">Choose Desigination</option>
                                             {skillCategories.map((cate) => (
                                                 <option key={cate} value={cate}>
                                                     {cate}
@@ -229,7 +239,7 @@ const AddEmployee = () => {
                                     </div>
                                 </div>
                                 <button type='submit' className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                                    Add
+                                    Update
                                 </button>
                             </div>
                         </form>
@@ -240,4 +250,4 @@ const AddEmployee = () => {
     );
 };
 
-export default AddEmployee;
+export default UpdateEmployee;

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { clearErrors, deleteUser } from '../actions/userAction';
+import { clearErrors } from '../actions/userAction';
 import { getAllUsers } from '../actions/addUserAction';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { MdDeleteForever } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { ImEye } from "react-icons/im";
+import { deleteUser } from '../actions/deleteUser';
+import { DELETE_USER_RESET } from '../constants/deleteUserConstant';
 
 const TableOne = () => {
 
@@ -18,6 +20,7 @@ const TableOne = () => {
     const [keyword, setKeyword] = useState("");
     const navigate = useNavigate()
     const params = useParams()
+
 
     useEffect(() => {
         if (error) {
@@ -39,6 +42,7 @@ const TableOne = () => {
         dispatch(deleteUser(id))
     }
 
+
     const searchSubmitHandler = (e) => {
         e.preventDefault();
 
@@ -48,18 +52,6 @@ const TableOne = () => {
             navigate("/allemployees");
         }
     };
-
-    // const rows = users.map((item, index) => ({
-    //     index: index + 1,
-    //     id: item._id,
-    //     name: item.name,
-    //     role: item.role,
-    //     fatherName: item.fatherName,
-    //     designation: item.designation,
-    //     phone: item.phone,
-    //     address: item.address,
-    //     action: renderActionButton(item._id),
-    // }));
 
     return (
         <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -103,12 +95,14 @@ const TableOne = () => {
                                         <button className="hover:text-primary">
                                             <ImEye />
                                         </button>
-                                        <button className="hover:text-primary"  onClick={() => deleteUserHandler(id)}>
+                                        <button className="hover:text-primary" onClick={() => deleteUserHandler(item._id)}>
                                             <MdDeleteForever />
                                         </button>
-                                        <button className="hover:text-primary">
-                                            <MdEdit />
-                                        </button>
+                                        <Link to={`/update-employee/${item._id}`}>
+                                            <button className="hover:text-primary">
+                                                <MdEdit />
+                                            </button>
+                                        </Link>
                                     </div>
                                 </td>
                             </tr>

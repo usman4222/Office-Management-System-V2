@@ -6,6 +6,7 @@ import ProtectedRoute from './ProtectedRoute';
 import { useSelector } from 'react-redux';
 import AddEmployee from './components/EmployeeForm/AddEmployee';
 import AllEmployees from './components/EmployeesTable/AllEmployees';
+import UpdateEmployee from './components/EmployeeForm/UpdateEmployee';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.user)
@@ -19,6 +20,7 @@ function App() {
           <Route path='/' element={<Dash />} />
           <Route path='/addemployee' element={<AddEmployee />} />
           <Route path='/allemployees' element={<AllEmployees />} />
+          <Route path='/update-employee/:id' element={<UpdateEmployee />} />
         </Route>
         <Route element={<Signin />} path="/sign-in" />
       </Routes>
