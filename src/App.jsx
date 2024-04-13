@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Dash from './Dashboard/Dash'
+import Signin from './Signin'
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
     <BrowserRouter>
       <Routes>
             <Route element={<Dash />} path="/" />
+            <Route element={<Signin />} path="/sign-in" />
       </Routes>
     </BrowserRouter>
   );
