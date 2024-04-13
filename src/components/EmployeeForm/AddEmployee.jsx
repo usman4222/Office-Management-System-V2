@@ -6,9 +6,8 @@ import { addNewUser, clearErrors } from '../../actions/addUserAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_USER_RESET } from '../../constants/addUserContant';
 import { useSnackbar } from 'notistack';
-// import SelectGroupOne from '../SelectGroup/SelectGroupOne';
 
-const AddUser = () => {
+const AddEmployee = () => {
 
     const [selectedOption, setSelectedOption] = useState('');
     const [isOptionSelected, setIsOptionSelected] = useState(false);
@@ -241,4 +240,4 @@ const AddUser = () => {
     );
 };
 
-export default AddUser;
+export default AddEmployee;

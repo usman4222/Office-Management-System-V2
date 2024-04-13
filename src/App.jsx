@@ -4,7 +4,8 @@ import Dash from './Dashboard/Dash'
 import Signin from './Signin'
 import ProtectedRoute from './ProtectedRoute';
 import { useSelector } from 'react-redux';
-import AddUser from './components/UserForm/AddUser';
+import AddEmployee from './components/EmployeeForm/AddEmployee';
+import AllEmployees from './components/EmployeesTable/AllEmployees';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.user)
@@ -16,7 +17,8 @@ function App() {
       <Routes>
         <Route element={<ProtectedRoute user={user} />}>
           <Route path='/' element={<Dash />} />
-          <Route path='/addemployee' element={<AddUser />} />
+          <Route path='/addemployee' element={<AddEmployee />} />
+          <Route path='/allemployees' element={<AllEmployees />} />
         </Route>
         <Route element={<Signin />} path="/sign-in" />
       </Routes>
