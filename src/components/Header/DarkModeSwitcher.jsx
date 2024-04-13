@@ -1,4 +1,4 @@
-import useColorMode from '../Dash/hooks/useColorMode';
+import useColorMode from '../../hooks/useColorMode';
 
 const DarkModeSwitcher = () => {
   const [colorMode, setColorMode] = useColorMode();

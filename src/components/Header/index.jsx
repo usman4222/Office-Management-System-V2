@@ -4,23 +4,10 @@ import { Link } from 'react-router-dom';
 import DropdownUser from './DropdownUser';
 // import LogoIcon from '../../images/logo/logo-icon.svg';
 import DarkModeSwitcher from './DarkModeSwitcher';
-import useColorMode from '../Dash/hooks/useColorMode'; 
-import { useEffect } from 'react';
+import useColorMode from '../../hooks/useColorMode'; 
 
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
-  const [colorMode, setColorMode] = useColorMode();
-
-  useEffect(() => {
-    console.log('Color mode changed:', colorMode);
-    // Add or remove 'dark' class from the body element based on colorMode
-    if (colorMode === 'dark') {
-      document.body.classList.add('dark');
-      console.log("first");
-    } else {
-      document.body.classList.remove('dark');
-      console.log("2nd");
-    }
-  }, [colorMode]);
+  // const [colorMode, setColorMode] = useColorMode();
 
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">

@@ -1,9 +1,9 @@
 import React from 'react';
 import DefaultLayout from '../layout/DefaultLayout';
 import CardDataStats from './CardDataStats';
-import ChartThree from './Charts/ChartThree';
-import ChartTwo from './Charts/ChartTwo';
-import ChartOne from './Charts/ChartOne';
+import ChartThree from '../Charts/ChartThree';
+import ChartTwo from '../Charts/ChartTwo';
+import ChartOne from '../Charts/ChartOne';
 // import ChatCard from '../../components/Chat/ChatCard';
 // import MapOne from '../../components/Maps/MapOne';
 // import TableOne from '../../components/Tables/TableOne';
