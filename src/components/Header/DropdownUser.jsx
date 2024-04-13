@@ -1,18 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import UserOne from '../../images/logo/sor.png';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSnackbar } from 'notistack';
+import { logout } from '../../actions/userAction';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user } = useSelector((state) => state.user)
 
   const role = user.role
+  const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  function logoutUser() {
+    dispatch(logout());
+    enqueueSnackbar('Logout Successfully...!', { variant: 'success' });
+    navigate('/sign-in');
+
+  }
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
-  // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
       if (!dropdown.current) return;
@@ -28,7 +38,6 @@ const DropdownUser = () => {
     return () => document.removeEventListener('click', clickHandler);
   });
 
-  // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
       if (!dropdownOpen || keyCode !== 27) return;
@@ -54,7 +63,7 @@ const DropdownUser = () => {
         </span>
 
         <span className="h-10 w-10 flex justify-center items-center rounded-full">
-          <img src={UserOne} alt="User" className='rounded-full'/>
+          <img src={UserOne} alt="User" className='rounded-full' />
         </span>
 
         <svg
@@ -85,7 +94,7 @@ const DropdownUser = () => {
         <ul className="flex flex-col gap-5 px-6 py-7.5">
           <li>
             <Link
-              to="/logout"
+              onClick={logoutUser}
               className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
             >
               <svg
