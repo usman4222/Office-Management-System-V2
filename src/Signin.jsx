@@ -1,11 +1,42 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Breadcrumb from './components/Breadcrumbs/Breadcrumb';
 import LogoDark from './images/logo/logo-dark.svg';
 import Logo from './images/logo/sorr.png';
 import UnAuthLayout from './layout/UnAuthLayout';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSnackbar } from 'notistack';
+import { CLEAR_ERRORS } from './constants/userConstant';
+import { login } from './actions/userAction';
 
 const Signin = () => {
+
+    const dispatch = useDispatch()
+    const { enqueueSnackbar } = useSnackbar();
+    const { error, isAuthenticated } = useSelector((state) => state.user)
+    const navigate = useNavigate();
+    const [loignEmail, setLoginEmail] = useState("")
+    const [loignPassword, setLoginPassword] = useState("")
+    const loginTab = useRef(null)
+
+    const loginSubmit = (e) => {
+        e.preventDefault()
+        dispatch(login(loignEmail, loignPassword))
+    }
+
+
+    useEffect(() => {
+        if (error) {
+            enqueueSnackbar(error, { variant: 'error' });
+            dispatch(CLEAR_ERRORS());
+        }
+        if (isAuthenticated) {
+            enqueueSnackbar('Successfully Logged In', { variant: 'success' });
+            navigate("/");
+        }
+    }, [dispatch, error, isAuthenticated, navigate, enqueueSnackbar]);
+    
+
     return (
         <UnAuthLayout>
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -153,15 +184,18 @@ const Signin = () => {
                                 Sign In to SMS
                             </h2>
 
-                            <form>
+                            <form ref={loginTab} onSubmit={loginSubmit}>
                                 <div className="mb-4">
                                     <label className="mb-2.5 block font-medium text-black dark:text-white">
                                         Email
                                     </label>
                                     <div className="relative">
                                         <input
-                                            type="email"
-                                            placeholder="Enter your email"
+                                            type='email'
+                                            placeholder='Enter you email'
+                                            value={loignEmail}
+                                            required
+                                            onChange={(e) => setLoginEmail(e.target.value)}
                                             className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                         />
 
@@ -191,8 +225,11 @@ const Signin = () => {
                                     </label>
                                     <div className="relative">
                                         <input
-                                            type="password"
-                                            placeholder="Enter your password"
+                                            type='password'
+                                            placeholder='Enter your password'
+                                            value={loignPassword}
+                                            required
+                                            onChange={(e) => setLoginPassword(e.target.value)}
                                             className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                         />
 

@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import UserOne from '../../images/user/user-01.png';
+import UserOne from '../../images/logo/sor.png';
+import { useSelector } from 'react-redux';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { user } = useSelector((state) => state.user)
+
+  const role = user.role
 
   const trigger = useRef(null);
   const dropdown = useRef(null);
@@ -44,13 +48,13 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {role}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs">Soriic</span>
         </span>
 
-        <span className="h-12 w-12 rounded-full">
-          <img src={UserOne} alt="User" />
+        <span className="h-10 w-10 flex justify-center items-center rounded-full">
+          <img src={UserOne} alt="User" className='rounded-full'/>
         </span>
 
         <svg

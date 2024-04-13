@@ -7,7 +7,6 @@ import DarkModeSwitcher from './DarkModeSwitcher';
 import useColorMode from '../../hooks/useColorMode'; 
 
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
-  // const [colorMode, setColorMode] = useColorMode();
 
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
