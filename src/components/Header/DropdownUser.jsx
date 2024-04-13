@@ -9,7 +9,9 @@ const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user } = useSelector((state) => state.user)
 
-  const role = user.role
+  console.log("this is user", user);
+
+  // const role = user.role
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,7 +59,7 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {role}
+            {/* {role} */}
           </span>
           <span className="block text-xs">Soriic</span>
         </span>

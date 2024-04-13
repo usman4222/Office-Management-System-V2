@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import DefaultLayout from '../layout/DefaultLayout';
 import CardDataStats from './CardDataStats';
 import ChartThree from '../Charts/ChartThree';
@@ -12,10 +12,18 @@ import { useSelector } from 'react-redux';
 
 function Dash() {
 
+    // useEffect(() => {
+    //     dispatch(getAllUsers());
+    //     dispatch(getExpenseList());
+    //     dispatch(getCurrentMonthExpenses())
+    //     dispatch(getCurrentMonthRevenue())
+    // }, [dispatch]);
+
+
     return (
         <DefaultLayout>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-                <CardDataStats title="Total views" total="$3.456K" rate="0.43%" levelUp>
+                <CardDataStats title="Total Expense" total="$3.456K" rate="0.43%" levelUp>
                     <svg
                         className="fill-primary dark:fill-white"
                         width="22"
@@ -32,7 +40,7 @@ function Dash() {
                             fill="" />
                     </svg>
                 </CardDataStats>
-                <CardDataStats title="Total Profit" total="$45,2K" rate="4.35%" levelUp>
+                <CardDataStats title="Current Month Expense" total="$45,2K" >
                     <svg
                         className="fill-primary dark:fill-white"
                         width="20"
@@ -52,7 +60,7 @@ function Dash() {
                             fill="" />
                     </svg>
                 </CardDataStats>
-                <CardDataStats title="Total Product" total="2.450" rate="2.59%" levelUp>
+                <CardDataStats title="Total Expense" total="2.450" rate="2.59%" levelUp>
                     <svg
                         className="fill-primary dark:fill-white"
                         width="22"
