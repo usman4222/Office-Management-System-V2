@@ -8,7 +8,7 @@ import { getUserDetails } from '../../actions/updateUser';
 import ChartThree from '../../Charts/ChartThree';
 import AttendanceGraph from '../../Charts/AttendanceGraph';
 
-const AttendanceDetailsTabel = () => {
+const AttendanceDetailsTable = () => {
 
     const { loading, user } = useSelector((state) => state.getUser);
     const { userAttendance } = useSelector((state) => state.userAttendance);
@@ -100,4 +100,4 @@ const AttendanceDetailsTabel = () => {
     );
 };
 
-export default AttendanceDetailsTabel;
+export default AttendanceDetailsTable;
