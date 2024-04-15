@@ -71,7 +71,6 @@ const AddEmployee = () => {
 
 
 
-
     return (
         <DefaultLayout>
             <Breadcrumb pageName="Add New Employee" />
