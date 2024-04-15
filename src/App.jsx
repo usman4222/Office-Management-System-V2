@@ -10,6 +10,7 @@ import UpdateEmployee from './components/EmployeeForm/UpdateEmployee';
 import EmployeeAttendanceTable from './components/EmployeesTable/EmployeeAttendanceTable';
 import AttendanceMarkerForm from './components/EmployeeForm/AttendanceMarkerForm';
 import AttendanceDetailsTabel from './components/EmployeesTable/AttendanceDetailsTabel';
+import CurrentMonthAttendanceList from './components/EmployeesTable/CurrentMonthAttendanceList';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.user)
@@ -27,6 +28,7 @@ function App() {
           <Route path='/employee-attendance' element={<EmployeeAttendanceTable />} />
           <Route path='/attendance/:id' element={<AttendanceMarkerForm />} />
           <Route path='/attendance/view/:id' element={<AttendanceDetailsTabel />} />
+          <Route path='/attendancelist/:id' element={<CurrentMonthAttendanceList />} />
         </Route>
         <Route element={<Signin />} path="/sign-in" />
       </Routes>

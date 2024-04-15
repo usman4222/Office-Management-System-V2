@@ -85,7 +85,7 @@ const AttendanceGraph = () => {
                             className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
                         >
                             <Link
-                                to={`/searchattendance/${user._id}`}
+                                to={`/attendancelist/${user._id}`}
                                 className="inline-flex items-center justify-center bg-black py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
                             >
                                 Attendance List
