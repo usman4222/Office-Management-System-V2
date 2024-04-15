@@ -44,7 +44,6 @@ export const updateUserCon = (id, attendanceData) => async (dispatch) => {
             type: UPDATE_USER_SUCCESS,
             payload: data.success
         });
-        console.log("this is data", data);
     } catch (error) {
         dispatch({
             type: UPDATE_USER_FAIL,
