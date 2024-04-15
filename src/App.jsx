@@ -12,6 +12,7 @@ import AttendanceMarkerForm from './components/EmployeeForm/AttendanceMarkerForm
 import AttendanceDetailsTable from './components/EmployeesTable/AttendanceDetailsTable';
 import CurrentMonthAttendanceList from './components/EmployeesTable/CurrentMonthAttendanceList';
 import AttendanceSearchTable from './components/EmployeesTable/AttendanceSearchTable';
+import AddExpenseForm from './components/EmployeeForm/AddExpenseForm';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.user)
@@ -31,6 +32,7 @@ function App() {
           <Route path='/attendance/view/:id' element={<AttendanceDetailsTable />} />
           <Route path='/attendancelist/:id' element={<CurrentMonthAttendanceList />} />
           <Route path='/searchattendance/:id' element={<AttendanceSearchTable />} />
+          <Route path='/addexpense' element={<AddExpenseForm />} />
         </Route>
         <Route element={<Signin />} path="/sign-in" />
       </Routes>
