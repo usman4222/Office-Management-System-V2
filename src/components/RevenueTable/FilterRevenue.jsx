@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import DefaultLayout from '../../layout/DefaultLayout';
 import Breadcrumb from '../Breadcrumbs/Breadcrumb';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSearchAttendance } from '../../actions/attendanceAction';
-import { getUserDetails } from '../../actions/updateUser';
-import FilterAttendanceChart from '../../Charts/FilterAttendanceChart';
 import { useSnackbar } from 'notistack';
-import { getAllExpenses } from '../../actions/financeController';
-import FilteredTable from '../EmployeesTable/FilteredTable';
-// import FilteredTable from './FilteredTable';
+import { getAllRevenue } from '../../actions/revenue';
 
-const FilterExpense = () => {
+const FilterRevenue = () => {
 
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
-    const { error, expenses, totalAmount, loading } = useSelector((state) => state.allExpenses);
+    const { error, success, revenues, totalAmount, loading } = useSelector((state) => state.allRevenues);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
@@ -26,7 +21,7 @@ const FilterExpense = () => {
 
     const handleSearch = () => {
         if (startDate && endDate) {
-            dispatch(getAllExpenses({ startDate, endDate }));
+            dispatch(getAllRevenue({ startDate, endDate }));
         } else {
             enqueueSnackbar('Please Enter Both Start and End Dates for the Search.', { variant: 'warning' });
         }
@@ -38,10 +33,9 @@ const FilterExpense = () => {
             dispatch(clearErrors());
         }
         if (startDate && endDate) {
-            dispatch(getAllExpenses({ startDate, endDate }));
+            dispatch(getAllRevenue({ startDate, endDate }));
         }
     }, [error, dispatch, startDate, endDate]);
-
 
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -50,12 +44,12 @@ const FilterExpense = () => {
 
     return (
         <DefaultLayout>
-            <Breadcrumb pageName="Expense Table" />
+            <Breadcrumb pageName="Revenue Table" />
             <div className="flex flex-col gap-10">
                 <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
                     <div className="max-w-full  overflow-x-auto lg:overflow-x-hidden">
                         <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-                            Search Expense
+                            Search Revenue
                         </h4>
                         <div className=" flex justify-center items-center pb-10">
                             <div className="flex flex-col ">
@@ -99,12 +93,11 @@ const FilterExpense = () => {
                         <h4 className="mb-6 text-xl font-semibold text-black dark:text-white pt-5">
                             Search Result
                         </h4>
-                        {expenses.length > 0 ? (
+                        {revenues.length > 0 ? (
                             <div className="max-w-full overflow-x-auto pb-10">
                                 <table className="w-full table-auto">
                                     <thead>
                                         <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                                            <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">Title</th>
                                             <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Reference</th>
                                             <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Date</th>
                                             <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Amount</th>
@@ -112,11 +105,8 @@ const FilterExpense = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {expenses.map((item, index) => (
+                                        {revenues.map((item, index) => (
                                             <tr key={index}>
-                                                <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
-                                                    <p className="text-black dark:text-white">{item.title}</p>
-                                                </td>
                                                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                                     <p className="text-black dark:text-white">{item.ref}</p>
                                                 </td>
@@ -152,16 +142,16 @@ const FilterExpense = () => {
                                 </div>
                                 <div className="w-full">
                                     <h5 className="mb-3 text-lg font-semibold text-[#9D5425]">
-                                        There is no expense data available at the moment.
+                                        There is no revenue data available at the moment.
                                     </h5>
                                     <p className="leading-relaxed text-[#D0915C]">
-                                        Please provide both the start and end dates to search for expense data.
+                                        Please provide both the start and end dates to search for revenue data.
                                     </p>
                                 </div>
                             </div>
                         )}
                         <h4 className="mb-6 text-xl font-semibold text-black dark:text-white pt-5">
-                            Total Expense
+                            Total Revenue
                         </h4>
                         <div >
                             <Link
@@ -177,4 +167,4 @@ const FilterExpense = () => {
     );
 };
 
-export default FilterExpense;
+export default FilterRevenue; 
