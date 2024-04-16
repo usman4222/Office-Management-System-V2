@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import DefaultLayout from '../layout/DefaultLayout';
+import DefaultLayout from '../../layout/DefaultLayout';
 import CardDataStats from './CardDataStats';
-import ChartThree from '../Charts/ChartThree';
-import ChartTwo from '../Charts/ChartTwo';
-import ChartOne from '../Charts/ChartOne';
+import ChartThree from '../../Charts/ChartThree';
+import ChartTwo from '../../Charts/ChartTwo';
+import ChartOne from '../../Charts/ChartOne';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllUsers } from '../actions/addUserAction';
-import { getCurrentMonthExpenses, getExpenseList } from '../actions/financeController';
-import { getCurrentMonthRevenue, getRevenueList } from '../actions/revenue';
+import { getAllUsers } from '../../actions/addUserAction';
+import { getCurrentMonthExpenses, getExpenseList } from '../../actions/financeController';
+import { getCurrentMonthRevenue, getRevenueList } from '../../actions/revenue';
 import CountUp from 'react-countup';
+import TableOne from '../../Tables/TableOne';
+import ChatCard from '../../components/Cards/ChatCard';
 // import ChatCard from '../../components/Chat/ChatCard';
 // import MapOne from '../../components/Maps/MapOne';
 // import TableOne from '../../components/Tables/TableOne';
@@ -181,7 +183,8 @@ function Dash() {
               <ChartOne />
               <ChartTwo />
               <ChartThree />
-              {/* <MapOne /> */}
+              <ChatCard />
+              
               {/* <div className="col-span-12 xl:col-span-8">
                 <TableOne />
               </div>

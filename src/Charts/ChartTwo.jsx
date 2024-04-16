@@ -81,17 +81,22 @@ const ChartTwo = () => {
     if (!expenseList || !revenueList) return;
 
     const getCurrentWeekData = (dataList) => {
+      if (!dataList || !Array.isArray(dataList)) {
+        return [];
+      }
+    
       const currentDate = new Date();
       const currentWeekStart = new Date(currentDate);
       currentWeekStart.setDate(currentDate.getDate() - currentDate.getDay());
       const currentWeekEnd = new Date(currentDate);
       currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
-
+    
       return dataList.filter((item) => {
         const itemDate = new Date(item.date);
         return itemDate >= currentWeekStart && itemDate <= currentWeekEnd;
       });
     };
+    
 
     const currentWeekExpense = getCurrentWeekData(expenseList.expenseList);
     const currentWeekRevenue = getCurrentWeekData(revenueList.revenueList);
