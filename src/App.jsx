@@ -12,7 +12,9 @@ import AttendanceMarkerForm from './components/EmployeeForm/AttendanceMarkerForm
 import AttendanceDetailsTable from './components/EmployeesTable/AttendanceDetailsTable';
 import CurrentMonthAttendanceList from './components/EmployeesTable/CurrentMonthAttendanceList';
 import AttendanceSearchTable from './components/EmployeesTable/AttendanceSearchTable';
-import AddExpenseForm from './components/EmployeeForm/AddExpenseForm';
+import AddExpenseForm from './components/ExpenseForm/AddExpenseForm';
+import ExpenseTable from './components/ExpenseTable/ExpenseTable';
+import FilterExpense from './components/ExpenseTable/FilterExpense';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.user)
@@ -33,6 +35,8 @@ function App() {
           <Route path='/attendancelist/:id' element={<CurrentMonthAttendanceList />} />
           <Route path='/searchattendance/:id' element={<AttendanceSearchTable />} />
           <Route path='/addexpense' element={<AddExpenseForm />} />
+          <Route path='/allexpenses' element={<ExpenseTable />} />
+          <Route path='/searchexpense' element={<FilterExpense />} />
         </Route>
         <Route element={<Signin />} path="/sign-in" />
       </Routes>
