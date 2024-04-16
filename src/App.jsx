@@ -15,6 +15,7 @@ import AttendanceSearchTable from './components/EmployeesTable/AttendanceSearchT
 import AddExpenseForm from './components/ExpenseForm/AddExpenseForm';
 import ExpenseTable from './components/ExpenseTable/ExpenseTable';
 import FilterExpense from './components/ExpenseTable/FilterExpense';
+import AddRevenueForm from './components/RevenueForm/AddRevenueForm';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.user)
@@ -37,6 +38,7 @@ function App() {
           <Route path='/addexpense' element={<AddExpenseForm />} />
           <Route path='/allexpenses' element={<ExpenseTable />} />
           <Route path='/searchexpense' element={<FilterExpense />} />
+          <Route path='/addrevenue' element={<AddRevenueForm />} />
         </Route>
         <Route element={<Signin />} path="/sign-in" />
       </Routes>

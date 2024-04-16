@@ -29,18 +29,6 @@ const ExpenseTable = () => {
         return new Date(dateString).toLocaleDateString('en-US', options);
     };
 
-    // const rows = expenseList && Array.isArray(expenseList.expenseList)
-    //     ? expenseList.expenseList.map((item, index) => ({
-    //         id: item.id || uuidv4(),
-    //         index: index + 1,
-    //         title: item.title,
-    //         ref: item.ref,
-    //         date: new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.date)),
-    //         amount: item.amount,
-    //         description: item.description
-    //     }))
-    //     : [];
-
 
     return (
         <DefaultLayout>
