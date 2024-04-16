@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRevenueList } from '../actions/revenue';
+import { getExpenseList } from '../actions/financeController';
 
 const options = {
   legend: {
@@ -78,10 +81,6 @@ const options = {
   xaxis: {
     type: 'category',
     categories: [
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
       'Jan',
       'Feb',
       'Mar',
@@ -90,6 +89,10 @@ const options = {
       'Jun',
       'Jul',
       'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ],
     axisBorder: {
       show: false,
@@ -105,34 +108,92 @@ const options = {
       },
     },
     min: 0,
-    max: 100,
+    max: 150000,
   },
 };
 
 const ChartOne = () => {
-  const [state, setState] = useState({
-    series: [
-      {
-        name: 'Product One',
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
-      },
-      {
-        name: 'Product Two',
-        data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
-      },
-    ],
-  });
+  const { expenseList } = useSelector((state) => state.expenseList);
+  const { revenueList } = useSelector((state) => state.revenueList);
+  const dispatch = useDispatch();
+  const [state, setState] = useState(null);
 
-  const handleReset = () => {
-    setState((prevState) => ({
-      ...prevState,
-    }));
-  };
-  handleReset;
+  useEffect(() => {
+    dispatch(getExpenseList());
+    dispatch(getRevenueList());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!expenseList || !Array.isArray(expenseList.expenseList) || expenseList.expenseList.length === 0 || !revenueList || !Array.isArray(revenueList.revenueList) || revenueList.revenueList.length === 0) {
+      return;
+    }
+
+    const currentYear = new Date().getFullYear();
+
+    const monthlyExpenseData = Array.from({ length: 12 }, (_, monthIndex) => {
+      const monthExpenses = expenseList.expenseList.filter((expense) => {
+        const expenseDate = new Date(expense.date);
+        const expenseMonth = expenseDate.getMonth();
+        const expenseYear = expenseDate.getFullYear();
+        return expenseMonth === monthIndex && expenseYear === currentYear;
+      });
+
+      const totalAmount = monthExpenses.reduce(
+        (accumulator, expense) => accumulator + parseFloat(expense.amount),
+        0
+      );
+
+      return totalAmount;
+    });
+
+    const monthlyRevenueData = Array.from({ length: 12 }, (_, monthIndex) => {
+      const monthRevenues = revenueList.revenueList.filter((revenue) => {
+        const revenueDate = new Date(revenue.date);
+        const revenueMonth = revenueDate.getMonth();
+        const revenueYear = revenueDate.getFullYear();
+        return revenueMonth === monthIndex && revenueYear === currentYear;
+      });
+
+      const totalAmount = monthRevenues.reduce(
+        (accumulator, revenue) => accumulator + parseFloat(revenue.amount),
+        0
+      );
+
+      return totalAmount;
+    });
+
+    const maxAmount = Math.max(...monthlyRevenueData, ...monthlyExpenseData); // Find maximum value
+    const minAmount = Math.min(...monthlyRevenueData, ...monthlyExpenseData); // Find minimum value
+
+    setState({
+      series: [
+        {
+          name: 'Revenue',
+          data: monthlyRevenueData,
+        },
+        {
+          name: 'Expense',
+          data: monthlyExpenseData,
+        },
+      ],
+      options: {
+        ...options,
+        yaxis: {
+          ...options.yaxis,
+          min: 0,
+          max: Math.ceil(maxAmount / 10000) * 10000, // Round up to the nearest 10,000
+        },
+      },
+    });
+  }, [expenseList, revenueList]);
+
+  if (!state) {
+    return null; 
+  }
 
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
-      <div className="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap">
+      <div className="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap ">
         <div className="flex w-full flex-wrap gap-3 sm:gap-5">
           <div className="flex min-w-47.5">
             <span className="mt-1 mr-2 flex h-4 w-full max-w-4 items-center justify-center rounded-full border border-primary">
@@ -140,7 +201,6 @@ const ChartOne = () => {
             </span>
             <div className="w-full">
               <p className="font-semibold text-primary">Total Revenue</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
             </div>
           </div>
           <div className="flex min-w-47.5">
@@ -148,29 +208,15 @@ const ChartOne = () => {
               <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-secondary"></span>
             </span>
             <div className="w-full">
-              <p className="font-semibold text-secondary">Total Sales</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+              <p className="font-semibold text-secondary">Total Expense</p>
             </div>
-          </div>
-        </div>
-        <div className="flex w-full max-w-45 justify-end">
-          <div className="inline-flex items-center rounded-md bg-whiter p-1.5 dark:bg-meta-4">
-            <button className="rounded bg-white py-1 px-3 text-xs font-medium text-black shadow-card hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark">
-              Day
-            </button>
-            <button className="rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:text-white dark:hover:bg-boxdark">
-              Week
-            </button>
-            <button className="rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:text-white dark:hover:bg-boxdark">
-              Month
-            </button>
           </div>
         </div>
       </div>
       <div>
         <div id="chartOne" className="-ml-5">
           <ReactApexChart
-            options={options}
+            options={state.options}
             series={state.series}
             type="area"
             height={350}
@@ -180,5 +226,6 @@ const ChartOne = () => {
     </div>
   );
 };
+
 
 export default ChartOne;

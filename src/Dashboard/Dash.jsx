@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import DefaultLayout from '../layout/DefaultLayout';
 import CardDataStats from './CardDataStats';
 import ChartThree from '../Charts/ChartThree';
 import ChartTwo from '../Charts/ChartTwo';
 import ChartOne from '../Charts/ChartOne';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllUsers } from '../actions/addUserAction';
+import { getCurrentMonthExpenses, getExpenseList } from '../actions/financeController';
+import { getCurrentMonthRevenue, getRevenueList } from '../actions/revenue';
+import CountUp from 'react-countup';
 // import ChatCard from '../../components/Chat/ChatCard';
 // import MapOne from '../../components/Maps/MapOne';
 // import TableOne from '../../components/Tables/TableOne';
@@ -12,18 +16,92 @@ import { useSelector } from 'react-redux';
 
 function Dash() {
 
-    // useEffect(() => {
-    //     dispatch(getAllUsers());
-    //     dispatch(getExpenseList());
-    //     dispatch(getCurrentMonthExpenses())
-    //     dispatch(getCurrentMonthRevenue())
-    // }, [dispatch]);
+    const [count, setCount] = useState(0);
+    const dispatch = useDispatch()
+    const { isAuthenticated, user } = useSelector((state) => state.user);
+    const { loading, users } = useSelector((state) => state.allUser);
+    const { totalCurrentMonthExpenses } = useSelector((state) => state.currentMonthTotal);
+    const { totalCurrentMonthRevenue } = useSelector((state) => state.currentMonthRevenue);
+    const { expenseList } = useSelector((state) => state.expenseList);
+    const { error, revenueList } = useSelector((state) => state.revenueList);;
+
+
+    useEffect(() => {
+        dispatch(getAllUsers());
+        dispatch(getExpenseList());
+        dispatch(getRevenueList());
+        dispatch(getCurrentMonthExpenses())
+        dispatch(getCurrentMonthRevenue())
+    }, [dispatch]);
+
+
+    const calculateTotalExpenses = () => {
+        if (!expenseList || !Array.isArray(expenseList.expenseList)) {
+            return 0;
+        }
+
+        return expenseList.expenseList.reduce((accumulator, expense) => {
+            return accumulator + parseFloat(expense.amount);
+        }, 0);
+    };
+
+    const calculateTotalRevenue = () => {
+        if (!revenueList || !Array.isArray(revenueList.revenueList)) {
+            return 0;
+        }
+
+        return revenueList.revenueList.reduce((accumulator, revenue) => {
+            return accumulator + parseFloat(revenue.amount);
+        }, 0);
+    };
+
+
+    useEffect(() => {
+        const startCount = 0;
+        const endCount = 123;
+        const duration = 4000;
+        const intervalTime = 50;
+        const steps = Math.ceil(duration / intervalTime);
+        const increment = Math.ceil((endCount - startCount) / steps);
+
+        let currentCount = startCount;
+        const interval = setInterval(() => {
+            if (currentCount < endCount) {
+                currentCount += increment;
+                setCount(currentCount > endCount ? endCount : currentCount);
+            } else {
+                clearInterval(interval);
+            }
+        }, intervalTime);
+
+        return () => clearInterval(interval);
+    }, []);
+
+
+    const internCount = users.filter(user => user.role === 'Intern').length;
+    const employeeCount = users.filter(user => user.role === 'Employee').length;;
+
+    // const DoughnutChart = () => {
+    //     const data = {
+    //         labels: ["Total Intern's", 'Total Employees'],
+    //         datasets: [
+    //             {
+    //                 label: 'Views',
+    //                 data: [internCount, employeeCount],
+    //                 borderColor: ['rgb(62,12, 171)', 'rgb(214, 44, 129)'],
+    //                 backgroundColor: ['rgba(62,12, 171, 0.3)', 'rgba(214, 44, 129, 0.3)'],
+    //                 borderWidth: 1,
+    //             },
+    //         ],
+    //     };
+    //     return <Doughnut data={data} />;
+    // };
 
 
     return (
         <DefaultLayout>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-                <CardDataStats title="Total Expense" total="$3.456K" rate="0.43%" levelUp>
+                <CardDataStats title="Total Expense" total={<CountUp end={calculateTotalExpenses()} duration={2} />}>
                     <svg
                         className="fill-primary dark:fill-white"
                         width="22"
@@ -40,7 +118,7 @@ function Dash() {
                             fill="" />
                     </svg>
                 </CardDataStats>
-                <CardDataStats title="Current Month Expense" total="$45,2K" >
+                <CardDataStats title="Current Month Expense" total={<CountUp end={totalCurrentMonthExpenses} duration={2} />} >
                     <svg
                         className="fill-primary dark:fill-white"
                         width="20"
@@ -60,7 +138,7 @@ function Dash() {
                             fill="" />
                     </svg>
                 </CardDataStats>
-                <CardDataStats title="Total Expense" total="2.450" rate="2.59%" levelUp>
+                <CardDataStats title="Total Revenue" total={<CountUp end={calculateTotalRevenue()} duration={2} />} >
                     <svg
                         className="fill-primary dark:fill-white"
                         width="22"
@@ -77,7 +155,7 @@ function Dash() {
                             fill="" />
                     </svg>
                 </CardDataStats>
-                <CardDataStats title="Total Users" total="3.456" rate="0.95%" levelDown>
+                <CardDataStats title="Current Month Revenue" total={<CountUp end={totalCurrentMonthRevenue} duration={2} />} >
                     <svg
                         className="fill-primary dark:fill-white"
                         width="22"
