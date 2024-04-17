@@ -2,14 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import Logo from '../../images/logo/sorr.png';
-import { MdDashboard } from "react-icons/md";
-import { FaUser } from 'react-icons/fa';
-import { PiUsersThreeFill } from "react-icons/pi";
-import { HiCurrencyRupee } from "react-icons/hi2";
-import { IoPeople } from "react-icons/io5";
-import { GiReceiveMoney } from "react-icons/gi";
-import { GiTakeMyMoney } from "react-icons/gi";
-import { GiPayMoney } from "react-icons/gi";
+import { RxDashboard } from "react-icons/rx";
+import { FaRegUser } from "react-icons/fa";
+import { HiOutlineUsers } from "react-icons/hi";
+import { MdChecklist } from "react-icons/md";
+import { RiMoneyDollarCircleLine } from "react-icons/ri";
+import { TbMoneybag } from "react-icons/tb";
+import { BiMoneyWithdraw } from "react-icons/bi";
+import { RiMoneyPoundCircleLine } from "react-icons/ri";
+
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
@@ -115,12 +116,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     <React.Fragment>
                       <NavLink
                         className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${(pathname === '/' ||
-                            pathname.includes('dashboard')) &&
+                          pathname.includes('dashboard')) &&
                           'bg-graydark dark:bg-meta-4'
                           }`}
                         to="/"
                       >
-                        <MdDashboard />
+                        <RxDashboard />
                         Dashboard
                       </NavLink>
                     </React.Fragment>
@@ -137,7 +138,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     'bg-graydark dark:bg-meta-4'
                     }`}
                 >
-                  <FaUser />
+                  <FaRegUser />
                   Add Employee
                 </NavLink>
               </li>
@@ -150,7 +151,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
                     }`}
                 >
-                  <IoPeople />
+                  <HiOutlineUsers />
                   All Employee
                 </NavLink>
               </li>
@@ -160,7 +161,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
                     }`}
                 >
-                  <PiUsersThreeFill />
+                  <MdChecklist />
                   Attendance
                 </NavLink>
               </li>
@@ -173,7 +174,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('tables') && 'bg-graydark dark:bg-meta-4'
                     }`}
                 >
-                  <GiPayMoney />
+                  <RiMoneyDollarCircleLine />
                   Add Expense
                 </NavLink>
               </li>
@@ -187,7 +188,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     'bg-graydark dark:bg-meta-4'
                     }`}
                 >
-                  <HiCurrencyRupee />
+                  <RiMoneyPoundCircleLine />
                   All Expense
                 </NavLink>
               </li>
@@ -199,7 +200,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     'bg-graydark dark:bg-meta-4'
                     }`}
                 >
-                  <GiReceiveMoney />
+                  <TbMoneybag />
                   Add Revenue
                 </NavLink>
               </li>
@@ -210,7 +211,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     'bg-graydark dark:bg-meta-4'
                     }`}
                 >
-                  <GiTakeMyMoney />
+                  <BiMoneyWithdraw />
                   All Revenue
                 </NavLink>
               </li>
