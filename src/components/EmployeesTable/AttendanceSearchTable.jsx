@@ -58,12 +58,12 @@ const AttendanceSearchTable = () => {
 
     return (
         <DefaultLayout>
-            <Breadcrumb pageName="Employees Attendance Table" />
+            <Breadcrumb pageName="Attendance Table" />
             <div className="flex flex-col gap-10">
                 <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
                     <div className="max-w-full  overflow-x-auto lg:overflow-x-hidden">
                         <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-                            Search Attendance
+                            Search {user.name}'s Attendance data
                         </h4>
                         <div className=" flex justify-center items-center pb-10">
                             <div className="flex flex-col ">

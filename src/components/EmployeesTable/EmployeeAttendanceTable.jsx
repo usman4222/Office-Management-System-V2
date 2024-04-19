@@ -24,16 +24,6 @@ const EmployeeAttendanceTable = () => {
         dispatch(getAllUsers(keyword));
     }, [error, dispatch, enqueueSnackbar, keyword]);
 
-    const searchSubmitHandler = (e) => {
-        e.preventDefault();
-
-        if (keyword.trim()) {
-            setKeyword(`/attendance/${keyword}`);
-        } else {
-            navigate("/attendance");
-        }
-    };
-
 
     return (
         <DefaultLayout>
