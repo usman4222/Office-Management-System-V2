@@ -28,52 +28,27 @@ export const login = (email, password) => async (dispatch) => {
         });
 
         const { data } = await axios.post(
-            `https://soriic-b-rana-usmans-projects.vercel.app/api/v1/login`,
-            { email, password }
+            'https://soriic-b-rana-usmans-projects.vercel.app/api/v1/login',
+            { email, password },
+            { headers: { 'Content-Type': 'application/json' } }
         );
 
-        localStorage.setItem('authToken', data.token);
+        const token = data.token;
+        localStorage.setItem('authToken', token);
 
         dispatch({
             type: LOGIN_SUCCESS,
             payload: data.user,
         });
+        
     } catch (error) {
         dispatch({
             type: LOGIN_FAIL,
-            payload: error.response.data.message,
+            payload: error.message, 
         });
     }
 };
 
-
-
-
-
-
-export const register = (userData) => async (dispatch) => {
-
-
-    try {
-        dispatch({ type: REGISTER_REQUEST })
-
-        const config = { headers: { "Content-Type": "application/json" } }
-        const { data } = await axios.post(
-            `https://soriic-b-rana-usmans-projects.vercel.app/api/v1/register`,
-            userData,
-            config
-        );
-        dispatch({
-            type: REGISTER_SUCCESS,
-            payload: data.user
-        })
-    } catch (error) {
-        dispatch({
-            type: REGISTER_FAIL,
-            payload: error.data
-        })
-    }
-}
 
 export const logout = () => async (dispatch) => {
 

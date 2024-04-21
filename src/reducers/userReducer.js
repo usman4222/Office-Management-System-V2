@@ -25,17 +25,17 @@ const initialState = {
 }
 
 export const userReducer = (state = initialState, action) => {
-
     switch (action.type) {
         case REGISTER_REQUEST:
         case LOGIN_REQUEST:
             return {
+                ...state,
                 loading: true,
                 isAuthenticated: false
             }
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
-            localStorage.setItem('token', action.payload.token);
+            localStorage.setItem('authToken', action.payload.token);
             return {
                 ...state,
                 loading: false,
@@ -43,8 +43,9 @@ export const userReducer = (state = initialState, action) => {
                 user: action.payload
             }
         case LOGOUT_SUCCESS:
-            localStorage.removeItem('token');
+            localStorage.removeItem('authToken');
             return {
+                ...state,
                 loading: false,
                 isAuthenticated: false,
                 user: null
@@ -72,8 +73,8 @@ export const userReducer = (state = initialState, action) => {
         default:
             return state
     }
-
 }
+
 
 
 export const allAdminUsersReducer = (state = { users: [] }, action) => {

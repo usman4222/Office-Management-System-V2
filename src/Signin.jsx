@@ -28,7 +28,7 @@ const Signin = () => {
     useEffect(() => {
         if (error) {
             enqueueSnackbar(error, { variant: 'error' });
-            dispatch(CLEAR_ERRORS());
+            dispatch({ type: 'CLEAR_ERRORS' });
         }
         if (isAuthenticated) {
             enqueueSnackbar('Successfully Logged In', { variant: 'success' });
