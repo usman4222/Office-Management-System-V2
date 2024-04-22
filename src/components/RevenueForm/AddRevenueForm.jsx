@@ -6,17 +6,25 @@ import { useSnackbar } from 'notistack';
 import { addNewRevenue } from '../../actions/revenue'
 
 const AddRevenueForm = () => {
-
-
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
+
     const [ref, setRef] = useState('');
     const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
 
+    const isValidAmount = (amount) => {
+        return !isNaN(parseFloat(amount)) && isFinite(amount);
+    };
+
     const addRevenueHandler = async (e) => {
         e.preventDefault();
+
+        if (!isValidAmount(amount)) {
+            enqueueSnackbar('Please enter a valid amount', { variant: 'error' });
+            return;
+        }
 
         try {
             const revenueData = {

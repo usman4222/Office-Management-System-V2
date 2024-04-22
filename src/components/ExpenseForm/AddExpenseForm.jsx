@@ -7,10 +7,8 @@ import { useSnackbar } from 'notistack';
 import { addNewExpense } from '../../actions/financeController'
 
 const AddExpenseForm = () => {
-
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
-    const navigate = useNavigate()
 
     const [title, setTitle] = useState('');
     const [ref, setRef] = useState('');
@@ -18,9 +16,17 @@ const AddExpenseForm = () => {
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
 
+    const isValidAmount = (amount) => {
+        return !isNaN(parseFloat(amount)) && isFinite(amount);
+    };
 
     const addExpenseHandler = async (e) => {
         e.preventDefault();
+
+        if (!isValidAmount(amount)) {
+            enqueueSnackbar('Please enter a valid amount', { variant: 'error' });
+            return;
+        }
 
         try {
             const expenseData = {
@@ -37,7 +43,6 @@ const AddExpenseForm = () => {
             console.error(error.message);
         }
     };
-
 
     return (
         <DefaultLayout>
