@@ -1,5 +1,5 @@
 import { combineReducers, applyMiddleware, createStore } from 'redux';
-import {thunk}  from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { allAdminUsersReducer, deleteUserReducer, userReducer } from '../reducers/userReducer';
 import { addUserReducer } from '../reducers/addUserReducer';
 import { allUsersReducer } from '../reducers/allUserReducer';
@@ -16,10 +16,10 @@ import {
     allExpensesListReducer,
     allExpensesReducer,
     currentMonthTotalReducer,
-    financeReducer
+    financeReducer,
+    totalExpensesReducer,
 } from '../reducers/financeReducer';
-import { allRevenuesListReducer, allRevenuesReducer, currentMonthTotalRevenueReducer, revenueReducer } from '../reducers/revenue';
-import { getTotalExpenseList } from '../actions/financeController';
+import { allRevenuesListReducer, allRevenuesReducer, currentMonthTotalRevenueReducer, revenueReducer, totalRevenueReducer } from '../reducers/revenue';
 
 const rootReducer = combineReducers({
     user: userReducer,
@@ -43,7 +43,8 @@ const rootReducer = combineReducers({
     allRevenues: allRevenuesReducer,
     revenueList: allRevenuesListReducer,
     currentMonthRevenue: currentMonthTotalRevenueReducer,
-    totalExpenseList:getTotalExpenseList
+    totalExpenseList: totalExpensesReducer,
+    totalRevenueList: totalRevenueReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

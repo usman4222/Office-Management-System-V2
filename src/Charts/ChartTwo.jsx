@@ -65,8 +65,6 @@ const options = {
 };
 
 const ChartTwo = () => {
-
-
   const { expenseList } = useSelector((state) => state.expenseList);
   const { revenueList } = useSelector((state) => state.revenueList);
   const dispatch = useDispatch();
@@ -101,30 +99,37 @@ const ChartTwo = () => {
     const currentWeekExpense = getCurrentWeekData(expenseList.expenseList);
     const currentWeekRevenue = getCurrentWeekData(revenueList.revenueList);
 
-    const totalCurrentWeekExpense = currentWeekExpense.reduce(
-      (total, expense) => total + parseFloat(expense.amount),
-      0
-    );
+    const dailyExpense = Array.from({ length: 7 }, (_, dayIndex) => {
+      const dayExpenses = currentWeekExpense.filter(expense => new Date(expense.date).getDay() === dayIndex);
+      return dayExpenses.reduce((total, expense) => total + parseFloat(expense.amount), 0);
+    });
 
-    const totalCurrentWeekRevenue = currentWeekRevenue.reduce(
-      (total, revenue) => total + parseFloat(revenue.amount),
-      0
-    );
+    const dailyRevenue = Array.from({ length: 7 }, (_, dayIndex) => {
+      const dayRevenues = currentWeekRevenue.filter(revenue => new Date(revenue.date).getDay() === dayIndex);
+      return dayRevenues.reduce((total, revenue) => total + parseFloat(revenue.amount), 0);
+    });
+
 
     setState({
       series: [
         {
           name: 'Revenue',
-          data: [totalCurrentWeekRevenue],
+          data: dailyRevenue,
         },
         {
           name: 'Expense',
-          data: [totalCurrentWeekExpense],
+          data: dailyExpense,
         },
       ],
+      options: {
+        ...options,
+        xaxis: {
+          ...options.xaxis,
+          categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        },
+      },
     });
   }, [expenseList, revenueList]);
-
 
   if (!state) {
     return null;
@@ -144,8 +149,8 @@ const ChartTwo = () => {
 
       <div>
         <div id="chartTwo" className="-ml-5 -mb-9">
-        <ReactApexChart
-            options={options}
+          <ReactApexChart
+            options={state.options}
             series={state.series}
             type="bar"
             height={350}

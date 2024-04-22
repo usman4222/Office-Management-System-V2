@@ -11,7 +11,10 @@ import {
     GET_ALL_REVENUE_SUCCESS,
     GET_CURRENT_MONTH_TOTAL_REVENUE_FAIL,
     GET_CURRENT_MONTH_TOTAL_REVENUE_REQUEST,
-    GET_CURRENT_MONTH_TOTAL_REVENUE_SUCCESS
+    GET_CURRENT_MONTH_TOTAL_REVENUE_SUCCESS,
+    GET_TOTAL_REVENUE_FAIL,
+    GET_TOTAL_REVENUE_REQUEST,
+    GET_TOTAL_REVENUE_SUCCESS
 } from "../constants/revenue";
 
 
@@ -78,6 +81,22 @@ export const getRevenueList = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GET_ALL_REVENUE_LIST_FAIL,
+            payload: { message: "Error in getting revenue list", error }
+        });
+    }
+};
+
+
+
+export const getTotalRevenueList = () => async (dispatch) => {
+    try {
+        dispatch({ type: GET_TOTAL_REVENUE_REQUEST });
+
+        const { data } = await axios.get(`https://soriic-b-rana-usmans-projects.vercel.app/api/v1/totalrevenueslist`);
+        dispatch({ type: GET_TOTAL_REVENUE_SUCCESS, payload: data.totalRevenuesList});
+    } catch (error) {
+        dispatch({
+            type: GET_TOTAL_REVENUE_FAIL,
             payload: { message: "Error in getting revenue list", error }
         });
     }

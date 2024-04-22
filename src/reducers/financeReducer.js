@@ -12,7 +12,10 @@ import {
     GET_CURRENT_MONTH_TOTAL_SUCCESS,
     GET_ALL_EXPENSES_LIST_SUCCESS,
     GET_ALL_EXPENSES_LIST_FAIL,
-    GET_ALL_EXPENSES_LIST_REQUEST
+    GET_ALL_EXPENSES_LIST_REQUEST,
+    GET_TOTAL_EXPENSES_REQUEST,
+    GET_TOTAL_EXPENSES_SUCCESS,
+    GET_TOTAL_EXPENSES_FAIL
 } from '../constants/financeConstant';
 
 const initialState = {
@@ -91,7 +94,7 @@ export const financeReducer = (state = { expense: [] }, action) => {
 }
 
 
-export const allExpensesReducer =  (state = { expenses: [], totalAmount: 0 }, action) => {
+export const allExpensesReducer = (state = { expenses: [], totalAmount: 0 }, action) => {
 
     switch (action.type) {
         case GET_ALL_EXPENSES_REQUEST:
@@ -151,3 +154,33 @@ export const allExpensesListReducer = (state = { loading: false, expenseList: []
             return state
     }
 }
+
+
+export const totalExpensesReducer = (state = { loading: false, totalExpenseList: [] }, action) => {
+    switch (action.type) {
+        case GET_TOTAL_EXPENSES_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case GET_TOTAL_EXPENSES_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                totalExpenseList: action.payload,
+            };
+        case GET_TOTAL_EXPENSES_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            };
+        default:
+            return state;
+    }
+};

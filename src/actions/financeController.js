@@ -11,7 +11,10 @@ import {
     GET_CURRENT_MONTH_TOTAL_FAIL,
     GET_ALL_EXPENSES_LIST_REQUEST,
     GET_ALL_EXPENSES_LIST_SUCCESS,
-    GET_ALL_EXPENSES_LIST_FAIL
+    GET_ALL_EXPENSES_LIST_FAIL,
+    GET_TOTAL_EXPENSES_REQUEST,
+    GET_TOTAL_EXPENSES_SUCCESS,
+    GET_TOTAL_EXPENSES_FAIL
 } from "../constants/financeConstant";
 import axios from "axios";
 
@@ -59,6 +62,20 @@ export const getExpenseList = () => async (dispatch) => {
     }
 };
 
+
+export const getTotalExpenseList = () => async (dispatch) => {
+    try {
+        dispatch({ type: GET_TOTAL_EXPENSES_REQUEST });
+
+        const { data } = await axios.get(`https://soriic-b-rana-usmans-projects.vercel.app/api/v1/totalexpenseslist`);
+        dispatch({ type: GET_TOTAL_EXPENSES_SUCCESS, payload: data.expenseList });
+    } catch (error) {
+        dispatch({
+            type: GET_TOTAL_EXPENSES_FAIL,
+            payload: { message: "Error in getting revenue list", error }
+        });
+    }
+};
 
 
 export const getAllExpenses = ({ startDate, endDate }) => async (dispatch) => {

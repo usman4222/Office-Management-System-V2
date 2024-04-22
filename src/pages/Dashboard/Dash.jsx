@@ -6,8 +6,8 @@ import ChartTwo from '../../Charts/ChartTwo';
 import ChartOne from '../../Charts/ChartOne';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers } from '../../actions/addUserAction';
-import { getCurrentMonthExpenses, getExpenseList } from '../../actions/financeController';
-import { getCurrentMonthRevenue, getRevenueList } from '../../actions/revenue';
+import { getCurrentMonthExpenses, getExpenseList, getTotalExpenseList } from '../../actions/financeController';
+import { getCurrentMonthRevenue, getRevenueList, getTotalRevenueList } from '../../actions/revenue';
 import CountUp from 'react-countup';
 import ChatCard from '../../components/Cards/ChatCard';
 import { RiMoneyPoundCircleLine } from "react-icons/ri";
@@ -23,38 +23,20 @@ function Dash() {
     const { loading, users } = useSelector((state) => state.allUser);
     const { totalCurrentMonthExpenses } = useSelector((state) => state.currentMonthTotal);
     const { totalCurrentMonthRevenue } = useSelector((state) => state.currentMonthRevenue);
-    const { expenseList } = useSelector((state) => state.expenseList);
-    const { error, revenueList } = useSelector((state) => state.revenueList);;
+    const {  totalRevenueList } = useSelector((state) => state.totalRevenueList);
+    const { totalExpenseList } = useSelector((state) => state.totalExpenseList);
+
 
 
     useEffect(() => {
         dispatch(getAllUsers());
-        dispatch(getExpenseList());
-        dispatch(getRevenueList());
+        dispatch(getTotalExpenseList());
+        dispatch(getTotalRevenueList());
         dispatch(getCurrentMonthExpenses())
         dispatch(getCurrentMonthRevenue())
     }, [dispatch]);
-
-
-    const calculateTotalExpenses = () => {
-        if (!expenseList || !Array.isArray(expenseList.expenseList)) {
-            return 0;
-        }
-
-        return expenseList.expenseList.reduce((accumulator, expense) => {
-            return accumulator + parseFloat(expense.amount);
-        }, 0);
-    };
-
-    const calculateTotalRevenue = () => {
-        if (!revenueList || !Array.isArray(revenueList.revenueList)) {
-            return 0;
-        }
-
-        return revenueList.revenueList.reduce((accumulator, revenue) => {
-            return accumulator + parseFloat(revenue.amount);
-        }, 0);
-    };
+    const totalExpense = totalExpenseList.reduce((acc, expense) => acc + expense.amount, 0);
+    const totalRevenue = totalRevenueList.reduce((acc, revenue) => acc + revenue.amount, 0);
 
 
     useEffect(() => {
@@ -82,13 +64,13 @@ function Dash() {
     return (
         <DefaultLayout>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-                <CardDataStats title="Total Expense" total={<CountUp end={calculateTotalExpenses()} duration={2} />}>
+                <CardDataStats title="Total Expense" total={<CountUp end={totalExpense} duration={2} />}>
                     <RiMoneyPoundCircleLine className="fill-primary dark:fill-white text-xl" />
                 </CardDataStats>
                 <CardDataStats title="Current Month Expense" total={<CountUp end={totalCurrentMonthExpenses} duration={2} />} >
                     <RiMoneyDollarCircleLine className="fill-primary dark:fill-white text-xl" />
                 </CardDataStats>
-                <CardDataStats title="Total Revenue" total={<CountUp end={calculateTotalRevenue()} duration={2} />} >
+                <CardDataStats title="Total Revenue" total={<CountUp end={totalRevenue} duration={2} />} >
                     <BiMoneyWithdraw className="fill-primary dark:fill-white text-xl" />
                 </CardDataStats>
                 <CardDataStats title="Current Month Revenue" total={<CountUp end={totalCurrentMonthRevenue} duration={2} />} >

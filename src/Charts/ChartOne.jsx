@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRevenueList } from '../actions/revenue';
-import { getExpenseList } from '../actions/financeController';
+import { getRevenueList, getTotalRevenueList } from '../actions/revenue';
+import { getExpenseList, getTotalExpenseList } from '../actions/financeController';
+import { getAllUsers } from '../actions/addUserAction';
 
 const options = {
   legend: {
@@ -113,58 +114,38 @@ const options = {
 };
 
 const ChartOne = () => {
-  const { expenseList } = useSelector((state) => state.expenseList);
-  const { revenueList } = useSelector((state) => state.revenueList);
+  const { totalExpenseList } = useSelector((state) => state.totalExpenseList);
+  const { totalRevenueList } = useSelector((state) => state.totalRevenueList);
   const dispatch = useDispatch();
   const [state, setState] = useState(null);
 
   useEffect(() => {
-    dispatch(getExpenseList());
-    dispatch(getRevenueList());
+    dispatch(getAllUsers());
+    dispatch(getTotalExpenseList());
+    dispatch(getTotalRevenueList());
   }, [dispatch]);
 
   useEffect(() => {
-    if (!expenseList || !Array.isArray(expenseList.expenseList) || expenseList.expenseList.length === 0 || !revenueList || !Array.isArray(revenueList.revenueList) || revenueList.revenueList.length === 0) {
+    if (!totalExpenseList || !totalRevenueList) {
       return;
     }
 
-    const currentYear = new Date().getFullYear();
-
-    const monthlyExpenseData = Array.from({ length: 12 }, (_, monthIndex) => {
-      const monthExpenses = expenseList.expenseList.filter((expense) => {
-        const expenseDate = new Date(expense.date);
-        const expenseMonth = expenseDate.getMonth();
-        const expenseYear = expenseDate.getFullYear();
-        return expenseMonth === monthIndex && expenseYear === currentYear;
-      });
-
-      const totalAmount = monthExpenses.reduce(
-        (accumulator, expense) => accumulator + parseFloat(expense.amount),
-        0
-      );
-
-      return totalAmount;
+    const monthlyExpenses = Array.from({ length: 12 }, (_, monthIndex) => {
+      return totalExpenseList.filter(expense => new Date(expense.date).getMonth() === monthIndex);
     });
 
-    const monthlyRevenueData = Array.from({ length: 12 }, (_, monthIndex) => {
-      const monthRevenues = revenueList.revenueList.filter((revenue) => {
-        const revenueDate = new Date(revenue.date);
-        const revenueMonth = revenueDate.getMonth();
-        const revenueYear = revenueDate.getFullYear();
-        return revenueMonth === monthIndex && revenueYear === currentYear;
-      });
-
-      const totalAmount = monthRevenues.reduce(
-        (accumulator, revenue) => accumulator + parseFloat(revenue.amount),
-        0
-      );
-
-      return totalAmount;
+    const monthlyRevenues = Array.from({ length: 12 }, (_, monthIndex) => {
+      return totalRevenueList.filter(revenue => new Date(revenue.date).getMonth() === monthIndex);
     });
 
-    const maxAmount = Math.max(...monthlyRevenueData, ...monthlyExpenseData); // Find maximum value
-    const minAmount = Math.min(...monthlyRevenueData, ...monthlyExpenseData); // Find minimum value
+    const monthlyExpenseData = monthlyExpenses.map(expenses => expenses.reduce((total, expense) => total + parseFloat(expense.amount), 0));
+    const monthlyRevenueData = monthlyRevenues.map(revenues => revenues.reduce((total, revenue) => total + parseFloat(revenue.amount), 0));
 
+    const maxAmount = Math.max(
+      Math.max(...monthlyExpenseData),
+      Math.max(...monthlyRevenueData)
+    );
+    
     setState({
       series: [
         {
@@ -178,17 +159,33 @@ const ChartOne = () => {
       ],
       options: {
         ...options,
+        xaxis: {
+          ...options.xaxis,
+          categories: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+          ],
+        },
         yaxis: {
           ...options.yaxis,
-          min: 0,
-          max: Math.ceil(maxAmount / 10000) * 10000, // Round up to the nearest 10,000
+          max: Math.ceil(maxAmount / 10000) * 10000, 
         },
       },
     });
-  }, [expenseList, revenueList]);
+  }, [totalExpenseList, totalRevenueList]);
 
   if (!state) {
-    return null; 
+    return null;
   }
 
   return (
@@ -226,6 +223,5 @@ const ChartOne = () => {
     </div>
   );
 };
-
 
 export default ChartOne;

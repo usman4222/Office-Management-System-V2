@@ -13,6 +13,9 @@ import {
     GET_ALL_REVENUE_LIST_REQUEST,
     GET_ALL_REVENUE_LIST_SUCCESS,
     GET_ALL_REVENUE_LIST_FAIL,
+    GET_TOTAL_REVENUE_REQUEST,
+    GET_TOTAL_REVENUE_SUCCESS,
+    GET_TOTAL_REVENUE_FAIL,
 } from "../constants/revenue";
 
 export const revenueReducer = (state = { revenue: [] }, action) => {
@@ -82,6 +85,39 @@ export const allRevenuesReducer = (state = { revenues: [], totalAmount: 0 }, act
             return state
     }
 }
+
+
+export const totalRevenueReducer = (state = { loading: false, totalRevenueList: [] }, action) => {
+    switch (action.type) {
+        case GET_TOTAL_REVENUE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+            
+        case GET_TOTAL_REVENUE_SUCCESS:
+            // console.log(action.payload);
+            return {
+                ...state,
+                loading: false,
+                totalRevenueList: action.payload,
+            };
+        case GET_TOTAL_REVENUE_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            };
+        default:
+            return state;
+    }
+};
+
 
 
 export const allRevenuesListReducer = (state = { loading: false, revenueList: [] }, action) => {
