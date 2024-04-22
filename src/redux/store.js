@@ -19,6 +19,7 @@ import {
     financeReducer
 } from '../reducers/financeReducer';
 import { allRevenuesListReducer, allRevenuesReducer, currentMonthTotalRevenueReducer, revenueReducer } from '../reducers/revenue';
+import { getTotalExpenseList } from '../actions/financeController';
 
 const rootReducer = combineReducers({
     user: userReducer,
@@ -41,7 +42,8 @@ const rootReducer = combineReducers({
     revenue: revenueReducer,
     allRevenues: allRevenuesReducer,
     revenueList: allRevenuesListReducer,
-    currentMonthRevenue: currentMonthTotalRevenueReducer
+    currentMonthRevenue: currentMonthTotalRevenueReducer,
+    totalExpenseList:getTotalExpenseList
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
