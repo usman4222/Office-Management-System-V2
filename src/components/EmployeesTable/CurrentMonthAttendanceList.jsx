@@ -53,7 +53,7 @@ const CurrentMonthAttendanceList = () => {
                         <h4 className="md:text-xl text-lg mb-5 md:mb-0  flex justify-start md:pb-5 font-semibold text-black dark:text-white">
                             <Link
                                 to={`/searchattendance/${user._id}`}
-                                className="inline-flex items-center justify-center gap-3  md:px-10 text-center font-medium text-white hover:underline lg:px-8 xl:px-10"
+                                className="inline-flex items-center justify-center gap-3  md:px-10 text-center font-medium hover:underline lg:px-8 xl:px-10 text-black dark:text-white"
                             >
                                 <FaSearch />   Search Attendance
                             </Link>
