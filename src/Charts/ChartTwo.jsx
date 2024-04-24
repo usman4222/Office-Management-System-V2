@@ -143,8 +143,6 @@ const ChartTwo = () => {
             Profit this week
           </h4>
         </div>
-        <div>
-        </div>
       </div>
 
       <div>
