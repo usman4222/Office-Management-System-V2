@@ -35,7 +35,7 @@ const Signin = () => {
             navigate("/");
         }
     }, [dispatch, error, isAuthenticated, navigate, enqueueSnackbar]);
-    
+
 
     return (
         <UnAuthLayout>
@@ -49,8 +49,7 @@ const Signin = () => {
                             </Link>
 
                             <p className="2xl:px-20">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                                suspendisse.
+                                Welcome to our office management system. Streamline your workday with efficiency and ease.
                             </p>
 
                             <span className="mt-15 inline-block">
