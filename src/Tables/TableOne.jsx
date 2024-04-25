@@ -132,9 +132,9 @@ const TableOne = () => {
                                 </td>
                                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                     <div className="flex items-center space-x-3.5">
-                                        <button className="hover:text-primary">
+                                        {/* <button className="hover:text-primary">
                                             <ImEye />
-                                        </button>
+                                        </button> */}
                                         <button className="hover:text-primary" onClick={() => deleteUserHandler(item._id)}>
                                             <MdDeleteForever />
                                         </button>

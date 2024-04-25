@@ -45,7 +45,7 @@ const ChatCard = () => {
                             <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">Name</th>
                             <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Designation</th>
                             <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Role</th>
-                            <th className="py-4 px-4 font-medium text-black dark:text-white">Actions</th>
+                            {/* <th className="py-4 px-4 font-medium text-black dark:text-white">Actions</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -60,13 +60,13 @@ const ChatCard = () => {
                                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                     <p className="text-black dark:text-white">{item.role}</p>
                                 </td>
-                                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                {/* <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                     <div className="flex items-center space-x-3.5">
                                         <button className="hover:text-primary">
                                             <ImEye />
                                         </button>
                                     </div>
-                                </td>
+                                </td> */}
                             </tr>
                         ))}
                     </tbody>
