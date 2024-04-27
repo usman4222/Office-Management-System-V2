@@ -18,7 +18,7 @@ import FilterExpense from './components/ExpenseTable/FilterExpense';
 import AddRevenueForm from './components/RevenueForm/AddRevenueForm';
 import RevenueTable from './components/RevenueTable/RevenueTable';
 import FilterRevenue from './components/RevenueTable/FilterRevenue';
-import ChatCard from './components/Cards/ChatCard';
+import NotFound from './pages/NotFound';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.user)
@@ -44,7 +44,7 @@ function App() {
           <Route path='/addrevenue' element={<AddRevenueForm />} />
           <Route path='/allrevenue' element={<RevenueTable />} />
           <Route path='/searchrevenue' element={<FilterRevenue />} />
-          <Route path='/s' element={<ChatCard />} />
+          <Route path='*' element={<NotFound />} />
         </Route>
         <Route element={<Signin />} path="/sign-in" />
       </Routes>
