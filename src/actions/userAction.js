@@ -28,7 +28,7 @@ export const login = (email, password) => async (dispatch) => {
         });
 
         const { data } = await axios.post(
-            'https://soriic-b-wfao.vercel.app/api/v1/login',
+            'https://soriic-b-km2z.vercel.app/api/v1/login',
             { email, password },
             { headers: { 'Content-Type': 'application/json' } }
         );
@@ -53,7 +53,7 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
 
     try {
-        await axios.get(`https://soriic-b-wfao.vercel.app/api/v1/logout`)
+        await axios.get(`https://soriic-b-km2z.vercel.app/api/v1/logout`)
         localStorage.removeItem('authToken');
         dispatch({ type: LOGOUT_SUCCESS })
     } catch (error) {
@@ -69,7 +69,7 @@ export const getAllAdminUsers = () => async (dispatch) => {
     try {
         dispatch({ type: GET_ALL_USERS_REQUEST })
 
-        const { data } = await axios.get(`https://soriic-b-wfao.vercel.app/api/v1/allusers`)
+        const { data } = await axios.get(`https://soriic-b-km2z.vercel.app/api/v1/allusers`)
 
         dispatch({ type: GET_ALL_USERS_SUCCESS, payload: data.users })
     } catch (error) {
@@ -85,7 +85,7 @@ export const deleteUser = (id) => async (dispatch) => {
     try {
         dispatch({ type: USER_DELETE_REQUEST })
 
-        const { data } = await axios.delete(`https://soriic-b.vercel.app/api/v1/deleteuser/${id}`)
+        const { data } = await axios.delete(`https://soriic-b-km2z.vercel.app/api/v1/deleteuser/${id}`)
         dispatch({
             type: USER_DELETE_SUCCESS,
             payload: data
@@ -105,7 +105,7 @@ export const updateUser = (id, userData) => async (dispatch) => {
         dispatch({ type: UPDATE_USER_REQUEST })
 
         const config = { headers: { "Content-Type": "application/json" } }
-        const { data } = await axios.put(`https://soriic-b.vercel.app/api/v1/user/${id}`, userData, config)
+        const { data } = await axios.put(`https://soriic-b-km2z.vercel.app/api/v1/user/${id}`, userData, config)
         dispatch({
             type: UPDATE_USER_SUCCESS,
             payload: data.success
