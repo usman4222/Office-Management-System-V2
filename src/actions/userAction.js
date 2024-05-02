@@ -85,7 +85,7 @@ export const deleteUser = (id) => async (dispatch) => {
     try {
         dispatch({ type: USER_DELETE_REQUEST })
 
-        const { data } = await axios.delete(`https://soriic-b-wfao.vercel.app/api/v1/deleteuser/${id}`)
+        const { data } = await axios.delete(`https://soriic-b.vercel.app/api/v1/deleteuser/${id}`)
         dispatch({
             type: USER_DELETE_SUCCESS,
             payload: data
@@ -105,7 +105,7 @@ export const updateUser = (id, userData) => async (dispatch) => {
         dispatch({ type: UPDATE_USER_REQUEST })
 
         const config = { headers: { "Content-Type": "application/json" } }
-        const { data } = await axios.put(`https://soriic-b-wfao.vercel.app/api/v1/user/${id}`, userData, config)
+        const { data } = await axios.put(`https://soriic-b.vercel.app/api/v1/user/${id}`, userData, config)
         dispatch({
             type: UPDATE_USER_SUCCESS,
             payload: data.success

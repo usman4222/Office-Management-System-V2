@@ -28,7 +28,7 @@ export const addNewRevenue = (revenue) => async (dispatch) => {
             headers: { "Content-Type": "application/json" }
         }
 
-        const { data } = await axios.post(`https://soriic-b-wfao.vercel.app/api/v1/revenue`, revenue, config);
+        const { data } = await axios.post(`https://soriic-b.vercel.app/api/v1/revenue`, revenue, config);
 
         dispatch({
             type: CREATE_REVENUE_SUCCESS,
@@ -55,7 +55,7 @@ export const getAllRevenue = ({ startDate, endDate }) => async (dispatch) => {
             endDate: encodeURIComponent(endDate),
         });
 
-        const url = `https://soriic-b-wfao.vercel.app/api/v1/allrevenues?${queryParams}`;
+        const url = `https://soriic-b.vercel.app/api/v1/allrevenues?${queryParams}`;
 
         const { data } = await axios.get(url);
 
@@ -76,7 +76,7 @@ export const getRevenueList = () => async (dispatch) => {
     try {
         dispatch({ type: GET_ALL_REVENUE_LIST_REQUEST });
 
-        const { data } = await axios.get(`https://soriic-b-wfao.vercel.app/api/v1/revenuelist`);
+        const { data } = await axios.get(`https://soriic-b.vercel.app/api/v1/revenuelist`);
         dispatch({ type: GET_ALL_REVENUE_LIST_SUCCESS, payload: data });
     } catch (error) {
         dispatch({
@@ -92,7 +92,7 @@ export const getTotalRevenueList = () => async (dispatch) => {
     try {
         dispatch({ type: GET_TOTAL_REVENUE_REQUEST });
 
-        const { data } = await axios.get(`https://soriic-b-wfao.vercel.app/api/v1/totalrevenueslist`);
+        const { data } = await axios.get(`https://soriic-b.vercel.app/api/v1/totalrevenueslist`);
         dispatch({ type: GET_TOTAL_REVENUE_SUCCESS, payload: data.totalRevenuesList});
     } catch (error) {
         dispatch({
@@ -109,7 +109,7 @@ export const getCurrentMonthRevenue = () => async (dispatch) => {
     try {
         dispatch({ type: GET_CURRENT_MONTH_TOTAL_REVENUE_REQUEST });
 
-        const { data } = await axios.get(`https://soriic-b-wfao.vercel.app/api/v1/currentmonthrevenue`);
+        const { data } = await axios.get(`https://soriic-b.vercel.app/api/v1/currentmonthrevenue`);
 
         dispatch({ type: GET_CURRENT_MONTH_TOTAL_REVENUE_SUCCESS, payload: data.totalCurrentMonthRevenue });
     } catch (error) {
