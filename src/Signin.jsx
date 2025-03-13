@@ -264,6 +264,11 @@ const Signin = () => {
                                     />
                                 </div>
 
+                                <div>
+                                    <p>email: <bold>soriic@gmail.com</bold></p>
+                                    <p>password: <bold>123</bold></p>
+                                </div>
+
                             </form>
                         </div>
                     </div>
